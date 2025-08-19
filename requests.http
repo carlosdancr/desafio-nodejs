@@ -1,0 +1,26 @@
+POST http://localhost:3333/courses
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjMjE3OWYyMC04ZjFkLTRkNzAtOWM4MS1hMWEzMGIxZmZiODUiLCJyb2xlIjoibWFuYWdlciIsImlhdCI6MTc1NTUzMDMxN30.m1K-5TsxEmOfU3r4YLRAK9Ei64PWx3N-_g9ISCzQ5ho
+
+{
+  "title": "Curso de Node"
+}
+
+###
+
+GET http://localhost:3333/courses
+
+###
+
+GET http://localhost:3333/courses/8cfdad3d-18fb-490b-96c4-790ffbd363de
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjMjE3OWYyMC04ZjFkLTRkNzAtOWM4MS1hMWEzMGIxZmZiODUiLCJyb2xlIjoic3R1ZGVudCIsImlhdCI6MTc1NTUyOTEzN30.trErEveZuQMEqlbS498bgG7hVr1yjN6nYSm-9vqA0Mc
+
+###
+
+POST http://localhost:3333/sessions
+Content-Type: application/json
+
+{
+  "email": "Alice_Pereira12@hotmail.com",
+  "password": "123456"
+}
