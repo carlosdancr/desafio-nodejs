@@ -1,19 +1,19 @@
-import { verify } from "argon2";
-import { eq } from "drizzle-orm";
-import type { FastifyPluginAsyncZod } from "fastify-type-provider-zod";
-import jwt from "jsonwebtoken";
-import { z } from "zod";
+import { verify } from 'argon2';
+import { eq } from 'drizzle-orm';
+import type { FastifyPluginAsyncZod } from 'fastify-type-provider-zod';
+import jwt from 'jsonwebtoken';
+import { z } from 'zod';
 
-import { db } from "../database/client.ts";
-import { users } from "../database/schema.ts";
+import { db } from '../database/client.ts';
+import { users } from '../database/schema.ts';
 
 export const loginRoute: FastifyPluginAsyncZod = async (server) => {
   server.post(
-    "/sessions",
+    '/sessions',
     {
       schema: {
-        tags: ["auth"],
-        summary: "Login",
+        tags: ['auth'],
+        summary: 'Login',
         body: z.object({
           email: z.email(),
           password: z.string(),
@@ -33,7 +33,7 @@ export const loginRoute: FastifyPluginAsyncZod = async (server) => {
         .where(eq(users.email, email));
 
       if (result.length === 0) {
-        return reply.status(400).send({ message: "Credenciais inválidas." });
+        return reply.status(400).send({ message: 'Credenciais inválidas.' });
       }
 
       const user = result[0];
@@ -41,19 +41,19 @@ export const loginRoute: FastifyPluginAsyncZod = async (server) => {
       const doesPasswordsMatch = await verify(user.password, password);
 
       if (!doesPasswordsMatch) {
-        return reply.status(400).send({ message: "Credenciais inválidas." });
+        return reply.status(400).send({ message: 'Credenciais inválidas.' });
       }
 
       if (!process.env.JWT_SECRET) {
-        throw new Error("JWT_SECRET must be set.");
+        throw new Error('JWT_SECRET must be set.');
       }
 
       const token = jwt.sign(
         { sub: user.id, role: user.role },
-        process.env.JWT_SECRET
+        process.env.JWT_SECRET,
       );
 
       return reply.status(200).send({ token });
-    }
+    },
   );
 };

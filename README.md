@@ -68,7 +68,6 @@ npm run dev
 Base URL: `http://localhost:3333`
 
 - POST `/courses`
-
   - Cria um curso
   - Body (JSON):
     ```json
@@ -78,7 +77,6 @@ Base URL: `http://localhost:3333`
     - 201: `{ "courseId": "<uuid>" }`
 
 - GET `/courses`
-
   - Lista todos os cursos
   - 200: `{ "courses": [{ "id": "<uuid>", "title": "..." }] }`
 

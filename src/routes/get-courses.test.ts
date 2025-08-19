@@ -1,22 +1,23 @@
-import { randomUUID } from "node:crypto";
-import request from "supertest";
-import { expect, test } from "vitest";
+import { randomUUID } from 'node:crypto';
 
-import { server } from "../app.ts";
-import { makeCourse } from "../tests/factories/make-course.ts";
-import { makeAuthenticateUser } from "../tests/factories/make-user.ts";
+import request from 'supertest';
+import { expect, test } from 'vitest';
 
-test("get courses", async () => {
+import { server } from '../app.ts';
+import { makeCourse } from '../tests/factories/make-course.ts';
+import { makeAuthenticateUser } from '../tests/factories/make-user.ts';
+
+test('get courses', async () => {
   await server.ready();
 
   const titleId = randomUUID();
 
-  const { token } = await makeAuthenticateUser("manager");
+  const { token } = await makeAuthenticateUser('manager');
   await makeCourse(titleId);
 
   const response = await request(server.server)
     .get(`/courses?search=${titleId}`)
-    .set("Authorization", token);
+    .set('Authorization', token);
 
   expect(response.status).toEqual(200);
   expect(response.body).toEqual({

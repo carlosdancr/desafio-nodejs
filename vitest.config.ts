@@ -1,15 +1,15 @@
-import { defineConfig } from "vitest/config";
+import { defineConfig } from 'vitest/config';
 
 export default defineConfig({
   test: {
-    reporters: "verbose",
+    reporters: 'verbose',
     coverage: {
       enabled: true,
-      provider: "v8",
-      reporter: ["text", "text-summary", "html"],
+      provider: 'v8',
+      reporter: ['text', 'text-summary', 'html'],
       all: true,
-      include: ["src/**/*.ts"],
-      exclude: ["**/*.test.ts", "src/tests/**"],
+      include: ['src/**/*.ts'],
+      exclude: ['**/*.test.ts', 'src/tests/**'],
     },
   },
 });

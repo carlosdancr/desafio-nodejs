@@ -1,20 +1,20 @@
-import { eq } from "drizzle-orm";
-import type { FastifyPluginAsyncZod } from "fastify-type-provider-zod";
-import { z } from "zod";
+import { eq } from 'drizzle-orm';
+import type { FastifyPluginAsyncZod } from 'fastify-type-provider-zod';
+import { z } from 'zod';
 
-import { db } from "../database/client.ts";
-import { courses } from "../database/schema.ts";
-import { getAuthenticatedUserFromRequest } from "../utils/get-authenticated-user-from-request.ts";
-import { checkRequestJWT } from "./hooks/check-request-jwt.ts";
+import { db } from '../database/client.ts';
+import { courses } from '../database/schema.ts';
+
+import { checkRequestJWT } from './hooks/check-request-jwt.ts';
 
 export const getCourseByIdRoute: FastifyPluginAsyncZod = async (server) => {
   server.get(
-    "/courses/:id",
+    '/courses/:id',
     {
       preHandler: [checkRequestJWT],
       schema: {
-        tags: ["courses"],
-        summary: "Get course by ID",
+        tags: ['courses'],
+        summary: 'Get course by ID',
         params: z.object({
           id: z.uuid(),
         }),
@@ -26,13 +26,11 @@ export const getCourseByIdRoute: FastifyPluginAsyncZod = async (server) => {
               description: z.string().nullable(),
             }),
           }),
-          404: z.null().describe("Course not found"),
+          404: z.null().describe('Course not found'),
         },
       },
     },
     async (request, reply) => {
-      const user = getAuthenticatedUserFromRequest(request);
-
       const courseId = request.params.id;
 
       const result = await db
@@ -45,6 +43,6 @@ export const getCourseByIdRoute: FastifyPluginAsyncZod = async (server) => {
       }
 
       return reply.status(404).send();
-    }
+    },
   );
 };

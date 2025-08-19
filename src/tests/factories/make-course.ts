@@ -1,7 +1,7 @@
-import { faker } from "@faker-js/faker";
+import { faker } from '@faker-js/faker';
 
-import { db } from "../../database/client.ts";
-import { courses } from "../../database/schema.ts";
+import { db } from '../../database/client.ts';
+import { courses } from '../../database/schema.ts';
 
 export async function makeCourse(title?: string) {
   const result = await db

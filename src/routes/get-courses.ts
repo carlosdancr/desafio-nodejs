@@ -1,23 +1,24 @@
-import { and, asc, count, eq, ilike, SQL } from "drizzle-orm";
-import type { FastifyPluginAsyncZod } from "fastify-type-provider-zod";
-import { z } from "zod";
+import { and, asc, count, eq, ilike, SQL } from 'drizzle-orm';
+import type { FastifyPluginAsyncZod } from 'fastify-type-provider-zod';
+import { z } from 'zod';
 
-import { db } from "../database/client.ts";
-import { courses, enrollments } from "../database/schema.ts";
-import { checkRequestJWT } from "./hooks/check-request-jwt.ts";
-import { checkUserRole } from "./hooks/check-user-role.ts";
+import { db } from '../database/client.ts';
+import { courses, enrollments } from '../database/schema.ts';
+
+import { checkRequestJWT } from './hooks/check-request-jwt.ts';
+import { checkUserRole } from './hooks/check-user-role.ts';
 
 export const getCoursesRoute: FastifyPluginAsyncZod = async (server) => {
   server.get(
-    "/courses",
+    '/courses',
     {
-      preHandler: [checkRequestJWT, checkUserRole("manager")],
+      preHandler: [checkRequestJWT, checkUserRole('manager')],
       schema: {
-        tags: ["courses"],
-        summary: "Get all courses",
+        tags: ['courses'],
+        summary: 'Get all courses',
         querystring: z.object({
           search: z.string().optional(),
-          orderBy: z.enum(["title"]).optional().default("title"),
+          orderBy: z.enum(['title']).optional().default('title'),
           page: z.coerce.number().optional().default(1),
         }),
         response: {
@@ -27,7 +28,7 @@ export const getCoursesRoute: FastifyPluginAsyncZod = async (server) => {
                 id: z.uuid(),
                 title: z.string(),
                 enrollments: z.number(),
-              })
+              }),
             ),
             total: z.number(),
           }),
@@ -61,6 +62,6 @@ export const getCoursesRoute: FastifyPluginAsyncZod = async (server) => {
       ]);
 
       return reply.send({ courses: result, total });
-    }
+    },
   );
 };

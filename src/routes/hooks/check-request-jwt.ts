@@ -1,14 +1,14 @@
-import type { FastifyReply, FastifyRequest } from "fastify";
-import jwt from "jsonwebtoken";
+import type { FastifyReply, FastifyRequest } from 'fastify';
+import jwt from 'jsonwebtoken';
 
 type JWTPayload = {
   sub: string;
-  role: "student" | "manager";
+  role: 'student' | 'manager';
 };
 
 export async function checkRequestJWT(
   request: FastifyRequest,
-  reply: FastifyReply
+  reply: FastifyReply,
 ) {
   const token = request.headers.authorization;
 
@@ -17,7 +17,7 @@ export async function checkRequestJWT(
   }
 
   if (!process.env.JWT_SECRET) {
-    throw new Error("JWT_SECRET must be set.");
+    throw new Error('JWT_SECRET must be set.');
   }
 
   try {

@@ -1,12 +1,13 @@
-import { faker } from "@faker-js/faker";
-import { hash } from "argon2";
-import jwt from "jsonwebtoken";
-import { randomUUID } from "node:crypto";
+import { randomUUID } from 'node:crypto';
 
-import { db } from "../../database/client.ts";
-import { users } from "../../database/schema.ts";
+import { faker } from '@faker-js/faker';
+import { hash } from 'argon2';
+import jwt from 'jsonwebtoken';
 
-export async function makeUser(role?: "student" | "manager") {
+import { db } from '../../database/client.ts';
+import { users } from '../../database/schema.ts';
+
+export async function makeUser(role?: 'student' | 'manager') {
   const passwordBeforeHash = randomUUID();
 
   const result = await db
@@ -22,16 +23,16 @@ export async function makeUser(role?: "student" | "manager") {
   return { user: result[0], passwordBeforeHash };
 }
 
-export async function makeAuthenticateUser(role: "student" | "manager") {
+export async function makeAuthenticateUser(role: 'student' | 'manager') {
   const { user } = await makeUser(role);
 
   if (!process.env.JWT_SECRET) {
-    throw new Error("JWT_SECRET must be set.");
+    throw new Error('JWT_SECRET must be set.');
   }
 
   const token = jwt.sign(
     { sub: user.id, role: user.role },
-    process.env.JWT_SECRET
+    process.env.JWT_SECRET,
   );
 
   return { user, token };
